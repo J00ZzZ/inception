@@ -1,5 +1,4 @@
-LOGIN = liyu-her
-DATA_PATH = /home/$(LOGIN)/data
+DATA_PATH = $(shell grep ^DATA_PATH srcs/.env | cut -d '=' -f2)
 
 all: up
 
