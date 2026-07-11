@@ -1,5 +1,5 @@
-# Read DATA_PATH from srcs/.env
-DATA_PATH = $(shell grep ^DATA_PATH srcs/.env | cut -d '=' -f2)
+LOGIN = liyu-her
+DATA_PATH = /home/$(LOGIN)/data
 
 all: up
 

@@ -18,6 +18,9 @@ RUN apt-get update && apt-get install -y \
 RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x /usr/local/bin/wp
 
+# Set working directory to WordPress root
+WORKDIR /var/www/html
+
 # Copy custom PHP-FPM pool configuration
 COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
