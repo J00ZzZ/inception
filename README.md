@@ -1,5 +1,3 @@
-*This project has been created as part of the 42 curriculum by liyu-her.*
-
 # Inception
 
 ## Description
@@ -8,34 +6,28 @@ This project focuses on system administration, virtualization, and infrastructur
 - **WordPress** (configured with PHP-FPM) to serve the dynamic content.
 - **MariaDB** as the backend database for WordPress.
 
-All services are built from the penultimate stable version of Debian (`bullseye`).
+Debian was used to built all of the services.
 
 ---
 
-## Project Description & Technical Decisions
+## Project Description
 
-### Virtual Machines vs Docker
-- **Virtual Machines (VMs)** virtualize the physical hardware. They bundle a full guest Operating System, virtual drivers, and the application. This makes them resource-heavy and slow to boot.
-- **Docker Containers** virtualize the OS kernel. They share the host system's kernel and isolate process execution. Containers are extremely lightweight, boot in milliseconds, and use minimal disk space.
+The **Inception** project introduces the fundamentals of **DevOps**, **system administration**, and **containerization** by requiring students to build a complete web infrastructure using Docker. Rather than focusing on application development, the project emphasizes designing a secure, scalable, and reproducible deployment environment where each service runs independently inside its own container.
 
-### Secrets vs Environment Variables
-- **Environment Variables** are easily exposed (e.g. via `docker inspect` or within log files). They are suitable for non-sensitive configurations (like domain name or DB user name).
-- **Docker Secrets** store confidential information (like passwords) securely. Docker mounts these secrets as read-only files under `/run/secrets/` inside the containers, preventing them from being exposed in environment listings or images.
+Students must create custom Docker images and orchestrate them using **Docker Compose**. The mandatory infrastructure consists of an **NGINX** web server configured with TLS, a **WordPress** application running on PHP-FPM, and a **MariaDB** database. These services communicate through a dedicated Docker network while storing persistent data using Docker volumes to ensure data survives container restarts.
 
-### Docker Network vs Host Network
-- **Host Network** removes isolation between the container and the Docker host. The container uses the host's networking stack directly, exposing ports directly on the host interface.
-- **Docker Network (Bridge)** creates a private internal virtual network. Containers on the network can communicate with each other using container names as hostnames, but are completely isolated from the outside world unless specific ports are explicitly published.
+The project also teaches essential Linux administration skills, including environment variable management, service initialization, file permissions, networking, and container security. Students learn how to automate deployment, configure reverse proxies, troubleshoot connectivity issues, and maintain isolated services that work together reliably.
 
-### Docker Volumes vs Bind Mounts
-- **Bind Mounts** map a file or directory on the host machine to a directory in the container. They depend on the directory structure and permissions of the host.
-- **Docker Volumes** are managed by Docker. They are independent of the host directory structure. For this project, we utilize local-driver named volumes configured with specific host paths `/home/liyu-her/data/wordpress` and `/home/liyu-her/data/mariadb` to enforce storage inside the host's `/home/login/data` directory as requested.
+The bonus section extends the infrastructure by integrating additional services such as **Redis**, **FTP**, **Adminer**, or a static website, demonstrating how containerized applications can be expanded without affecting the existing architecture.
+
+Overall, Inception provides practical experience in deploying production-like environments and establishes a strong foundation in Docker, infrastructure management, networking, and modern software deployment practices.
 
 ---
 
 ## Instructions
 
-### Prerequisites
-- Docker and Docker Compose installed on the host.
+### BEFORE RUNNING THE PROJECT
+- Docker and Docker Compose installed on the host. (important)
 - Proper permissions to run docker commands (or use `sudo`).
 
 ### Build & Run Stack
@@ -66,16 +58,3 @@ To delete all containers, networks, volumes, and local data:
 ```bash
 make fclean
 ```
-
----
-
-## Resources
-- [Docker Documentation](https://docs.docker.com/)
-- [Docker Compose Specification](https://docs.docker.com/compose/)
-- [NGINX SSL Termination](https://nginx.org/en/docs/http/configuring_https_servers.html)
-- [WP-CLI Command Reference](https://developer.wordpress.org/cli/commands/)
-- [MariaDB Knowledge Base](https://mariadb.com/kb/en/)
-
-### AI Usage
-- **Usage**: AI was used to design the database bootstrap script, format configuration files for PHP-FPM and Nginx to ensure maximum performance and security, and format the user and developer documentation.
-- **Verification**: All configurations and script commands were manually reviewed against the Debian Bullseye manuals and standard Docker practices to ensure compliance with the PDF guidelines.

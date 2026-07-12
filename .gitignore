@@ -3,3 +3,6 @@ secrets/*.txt
 /secrets/db_password.txt
 /secrets/db_root_password.txt
 /secrets/credentials.txt
+README3.md
+DEV_DOC2.md
+USER_DOC2.md
